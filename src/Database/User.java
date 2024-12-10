@@ -2,24 +2,31 @@ package Database;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInfo {
+public class User {
 
-    public UserInfo(String user, String password, Double points) {
-        Username = user;
+    public User(String username, String password, Double points) {
+        Username = username;
         Password = password;
         Points = points;
-        GameLibrary = new ArrayList<Game>();
     }
+
+    public User(String username, String password, Double points, List<Game> gameLibrary) {
+        Username = username;
+        Password = password;
+        Points = points;
+        GameLibrary = gameLibrary;
+    }
+
     private String Username;
     private String Password;
     private Double Points;
     private List<Game> GameLibrary;
 
-    public String getUser() {
+    public String getUsername() {
         return Username;
     }
 
-    public void setUser(String user) {
+    public void setUsername(String user) {
         Username = user;
     }
 
@@ -39,11 +46,11 @@ public class UserInfo {
         Points = points;
     }
 
-    public List<Game> getGames() {
+    public List<Game> getGameList() {
         return GameLibrary;
     }
 
-    public void setGames(List<Game> games) {
+    public void setGameList(List<Game> games) {
         GameLibrary = games;
     }
 }

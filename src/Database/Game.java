@@ -47,4 +47,5 @@ public class Game {
     public void setPrize(Double prize) {
         Prize = prize;
     }
+
 }
