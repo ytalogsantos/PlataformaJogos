@@ -7,10 +7,10 @@ import java.util.List;
 public class UserDatabase {
     private static List<User> GlobalUserList = new ArrayList<>();
 
-    public static void CreateNewUser(String username, String password, Double points) {
-        Double userPoints = points > 0 ? points : 0;
-        User user = new User (username, password, userPoints);
+    public static void CreateNewUser(User user) {
+        Double userPoints = user.getPoints() > 0 ? user.getPoints() : 0;
         user.setGameList(new ArrayList<>());
+        user.setPoints(userPoints);
         GlobalUserList.add(user);
     }
 

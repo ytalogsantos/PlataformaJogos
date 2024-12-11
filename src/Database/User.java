@@ -1,5 +1,5 @@
 package Database;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class User {
@@ -8,13 +8,6 @@ public class User {
         Username = username;
         Password = password;
         Points = points;
-    }
-
-    public User(String username, String password, Double points, List<Game> gameLibrary) {
-        Username = username;
-        Password = password;
-        Points = points;
-        GameLibrary = gameLibrary;
     }
 
     private String Username;
@@ -52,5 +45,20 @@ public class User {
 
     public void setGameList(List<Game> games) {
         GameLibrary = games;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        User user = (User) obj;
+
+        return getUsername().equals(((User) obj).getUsername()) && getPassword().equals(((User) obj).getPassword());
     }
 }
