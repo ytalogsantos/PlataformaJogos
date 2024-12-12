@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    private static String getUserInput(Scanner scanner, String prompt) {
+        System.out.println(prompt);
+        return scanner.nextLine().toLowerCase();
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -20,22 +26,24 @@ public class Main {
         List<Game> GlobalGameList = GameDatabase.getGlobalGameList();
 
         while (true) {
-
-            System.out.println("1. Login\n2.Register\n");
+            System.out.println("1.Login\n2.Register");
             int loginForm = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.println("Username: ");
-            String username = scanner.nextLine();
-            System.out.println("Password: ");
-            String password = scanner.nextLine();
+            String username = getUserInput(scanner, "Username: ");
+            String password = getUserInput(scanner, "Password: ");
 
             switch (loginForm) {
                 case 1: // Login
                     Login.LoginAccount(username, password, 0.0);
                     break;
-                case 2: // Register
-                    Registration.RegisterAccount(username, password, 0.0);
+                case 2:
+                    if (Registration.RegisterAccount(username, password, 0.0)) {
+                        System.out.println("Registration successful.");
+                    }
+                    else {
+                        System.out.println("Username already exists.");
+                    }
                     break;
             }
         }
