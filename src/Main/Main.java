@@ -1,5 +1,7 @@
 package Main;
 
+import Authentication.Authentication;
+import Authentication.AuthenticationService;
 import Authentication.Login;
 import Authentication.Registration;
 import Database.Game;
@@ -7,8 +9,6 @@ import Database.GameDatabase;
 import Database.User;
 import Database.UserDatabase;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,7 +23,12 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
+        List<User> users = UserDatabase.getGlobalUserList();
         List<Game> GlobalGameList = GameDatabase.getGlobalGameList();
+
+        Authentication authentication = new AuthenticationService(users);
+        Login login = new Login(authentication);
+        Registration registration = new Registration(authentication);
 
         while (true) {
             System.out.println("1.Login\n2.Register");
@@ -35,10 +40,10 @@ public class Main {
 
             switch (loginForm) {
                 case 1: // Login
-                    Login.LoginAccount(username, password, 0.0);
+                    login.LoginAccount(username, password, 0.0);
                     break;
                 case 2:
-                    if (Registration.RegisterAccount(username, password, 0.0)) {
+                    if (registration.RegisterAccount(username, password, 0.0)) {
                         System.out.println("Registration successful.");
                     }
                     else {

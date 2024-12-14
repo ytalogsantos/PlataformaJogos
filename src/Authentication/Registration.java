@@ -3,20 +3,20 @@ package Authentication;
 import Database.User;
 import Database.UserDatabase;
 
-import java.util.List;
-
 public class Registration {
 
-    private static List<User> users = UserDatabase.getGlobalUserList();
+    Authentication authentication;
 
-    public static boolean RegisterAccount(String username, String password, Double points) {
+    public Registration(Authentication authentication) {
+        this.authentication = authentication;
+    }
+
+    public boolean RegisterAccount(String username, String password, Double points) {
         User newUser = new User(username, password, points);
-        if (AuthenticationService.isRegistrationValid(newUser)) {
+        if (authentication.isRegistrationValid(newUser)) {
             UserDatabase.CreateNewUser(newUser);
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }
