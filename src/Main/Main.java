@@ -8,6 +8,8 @@ import Database.Game;
 import Database.GameDatabase;
 import Database.User;
 import Database.UserDatabase;
+import DatabaseServices.UserDatabaseServices;
+import DatabaseServices.UserSession;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,10 +27,12 @@ public class Main {
 
         List<User> users = UserDatabase.getGlobalUserList();
         List<Game> GlobalGameList = GameDatabase.getGlobalGameList();
-
         Authentication authentication = new AuthenticationService(users);
         Login login = new Login(authentication);
         Registration registration = new Registration(authentication);
+        UserDatabaseServices databaseServices = new UserDatabaseServices(users);
+        User currentUser;
+        UserProfile currentUserProfile;
 
         while (true) {
             System.out.println("1.Login\n2.Register");
@@ -40,43 +44,22 @@ public class Main {
 
             switch (loginForm) {
                 case 1: // Login
-                    login.LoginAccount(username, password, 0.0);
+                    if (login.LoginAccount(username, password, 0.0)) {
+                        currentUser = databaseServices.findByUsername(username);
+                        currentUserProfile = new UserProfile(currentUser);
+                        UserSession userSession = new UserSession(currentUserProfile, scanner);
+                        userSession.manageUserSession();
+                    }
                     break;
                 case 2:
                     if (registration.RegisterAccount(username, password, 0.0)) {
                         System.out.println("Registration successful.");
-                    }
-                    else {
+
+                    } else {
                         System.out.println("Username already exists.");
                     }
                     break;
             }
         }
-
-//        System.out.println("** Global Game List **");
-//
-//        for (Game game : GlobalGameList) {
-//            System.out.println("Game: " + game.getTitle());
-//            System.out.println("Genre: " + game.getGenre());
-//            System.out.println("Release date: " + game.getReleaseDate());
-//            System.out.println("Prize: " + game.getPrize() + "\n");
-//            System.out.println("---------------------------\n");
-//        }
-//
-//        List<User> UserList = UserDatabase.getGlobalUserList();
-//        System.out.println("## Global User List ##");
-//
-//        for (User user : UserList) {
-//            System.out.println("User: " + user.getUsername());
-//            System.out.println("Total poins: " + user.getPoints() + "\n");
-//            System.out.println("------ Game Library ------");
-//            for (Game game : user.getGameList()) {
-//                System.out.println("Game: " + game.getTitle());
-//                System.out.println("Genre: " + game.getGenre());
-//                System.out.println("Release date: " + game.getReleaseDate());
-//                System.out.println("Prize: " + game.getPrize());
-//                System.out.println("---------------------------");
-//            }
-//        }
     }
 }
