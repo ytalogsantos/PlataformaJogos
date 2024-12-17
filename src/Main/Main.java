@@ -24,9 +24,8 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-
         List<User> users = UserDatabase.getGlobalUserList();
-        List<Game> GlobalGameList = GameDatabase.getGlobalGameList();
+        GlobalGameLibrary globalGameLibrary = new GlobalGameLibrary(GameDatabase.getGlobalGameList());
         Authentication authentication = new AuthenticationService(users);
         Login login = new Login(authentication);
         Registration registration = new Registration(authentication);
@@ -47,7 +46,7 @@ public class Main {
                     if (login.LoginAccount(username, password, 0.0)) {
                         currentUser = databaseServices.findByUsername(username);
                         currentUserProfile = new UserProfile(currentUser);
-                        UserSession userSession = new UserSession(currentUserProfile, scanner);
+                        UserSession userSession = new UserSession(currentUserProfile, globalGameLibrary, scanner);
                         userSession.manageUserSession();
                     }
                     break;
